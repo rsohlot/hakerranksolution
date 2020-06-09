@@ -22,7 +22,7 @@ from functools import reduce
 #
 
 def getTotalX(a, b):
-    aa,bb=0,0
+    #aa,bb=0,0
     ct=0
     
     for i in range(max(a),min(b)+1):
