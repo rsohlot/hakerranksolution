@@ -1,5 +1,3 @@
-# qustion ; https://www.hackerrank.com/challenges/count-triplets-1/problem
-
 #!/bin/python3
 
 import math
@@ -8,6 +6,15 @@ import random
 import re
 import sys
 from collections import OrderedDict
+
+import operator as op
+from functools import reduce
+
+def ncr(n, r):
+    r = min(r, n-r)
+    numer = reduce(op.mul, range(n, n-r, -1), 1)
+    denom = reduce(op.mul, range(1, r+1), 1)
+    return numer // denom  # or / in Python 2
 
 # Python Program to Print
 # all subsets of given size of a set
@@ -30,27 +37,52 @@ def isPerfectSquare(x):
     
 # Complete the countTriplets function below.
 def countTriplets(arr, r):
-    valid_numbers = []
-    valid_numbers_log = []
+    each_number_index = {}
+    number_combunation = {}
+    index = -1
+    first_value = arr[0]
+    result_for_zero = 0
     for i in arr:
+        index += 1
         if isPerfectSquare(i):
-            if r == 1:
+            if r == 1 and i == first_value:
                 # will throw zero division error in else for r == 1
-                valid_numbers_log.append(int(i))
+                result_for_zero += 1
             else:
-                valid_numbers_log.append(int(math.log(i,r)))
+                i = int(math.log(i,r))
+                # add each number to the dictionary
+                if i in each_number_index:
+                    each_number_index[i] = each_number_index[i] + [index]
+                else:
+                    each_number_index[i] = [index]
+                # add to the dictionary the number of combinations, if possible
+                if i-1 in each_number_index:
+                    combination = len(each_number_index[i-1])
+                    if (i-1,i) in number_combunation.keys():
+                        print('----------',number_combunation[(i-1,i)])
+                        number_combunation[(i-1,i)] = number_combunation[(i-1,i)] + [combination]
+                        print(number_combunation[(i-1,i)])
+                    else:
+                        number_combunation[(i-1,i)] = [combination]
     
-    numbers_subset = findsubsets(valid_numbers_log, 3)
     result = 0
-    for i,j,k in numbers_subset:
-        if r == 1 and j - i == 0 and k - j == 0:
-            result += 1
-        elif r != 1 and  j - i == 1 and k - j == 1:
-            result += 1
-            
+    if r == 1:
+        result = ncr(result_for_zero,3)
+    else:
+        print(number_combunation)
+        print(number_combunation.keys())
+        for i in number_combunation:
+            i,j = i
+            if (i-1,j-1) in number_combunation.keys():
+                print('------',i,j)
+                previous_combination = number_combunation[(i-1,j-1)]
+                for idx in number_combunation[(i,j)]:
+                    print(idx)
+                    filtered_list = previous_combination[:idx+1]
+                    print(filtered_list)
+                    result += sum(filtered_list)
+
     return result
-
-
     
 if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
