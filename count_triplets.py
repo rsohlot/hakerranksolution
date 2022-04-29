@@ -11,7 +11,7 @@ import sys
 def countTriplets(arr, r):
     before = {}
     after = {}
-    for i in arr:
+    for i in after:
         if i in arr:
             after[i] += 1
         else:
