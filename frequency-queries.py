@@ -1,3 +1,5 @@
+# Question : https://www.hackerrank.com/challenges/frequency-queries
+
 #!/bin/python3
 
 import math
