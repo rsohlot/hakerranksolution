@@ -1,5 +1,3 @@
-# Question : https://www.hackerrank.com/challenges/frequency-queries
-
 #!/bin/python3
 
 import math
@@ -7,11 +5,12 @@ import os
 import random
 import re
 import sys
+from collections import defaultdict
 
 # Complete the freqQuery function below.
 def freqQuery(queries):
     result =[]
-    data = {}
+    data = defaultdict(int)
     
     for (i,j) in queries:
         if i == 1:
