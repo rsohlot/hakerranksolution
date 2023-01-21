@@ -17,13 +17,13 @@ def freqQuery(queries):
     for (i,j) in queries:
         if i == 1:
             data[j] = data.get(j,0) + 1
-        if i == 2 and i in data.keys():
+        if i == 2 and j in data.keys() and data.get(j) >= 1:
             data[j] = data[j] - 1
         if i == 3:
+            ans = 0
             if j in data.values():
-                result.append(1)
-            else:
-                result.append(0)
+                ans = 1
+            result.append(ans)
     return result
 
 if __name__ == '__main__':
