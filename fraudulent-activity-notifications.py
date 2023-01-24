@@ -20,8 +20,9 @@ import sys
 def activityNotifications(expenditure, d):
     # Write your code here
     notification_count = 0
-    for i in range(d,len(expenditure)):
-        ordered_past_transaction = sorted(expenditure[i-d:i])
+    past_transaction = expenditure[:d]
+    for i in expenditure[d:]:
+        ordered_past_transaction = sorted(past_transaction)
         median_amount = 0
         if d%2 == 0:
             median_amount = (ordered_past_transaction[int((d/2)-1)] +               ordered_past_transaction[int(d/2)])/2
@@ -30,9 +31,10 @@ def activityNotifications(expenditure, d):
             
         
         # check if new transaction amount is greater than trailing median
-        if expenditure[i] >= 2 * median_amount:
+        if i >= 2 * median_amount:
             notification_count += 1
-    
+        
+        past_transaction = past_transaction[1:] + [i]
     return notification_count
     
 if __name__ == '__main__':
